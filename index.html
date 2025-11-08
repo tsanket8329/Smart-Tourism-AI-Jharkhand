@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌿 Smart Tourism AI – Jharkhand</title>
+
+  <style>
+    /* ===== Global Styles ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth; /* This makes the nav links scroll smoothly */
+      background-color: #f5fff6;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* ===== Header ===== */
+    header {
+      background: linear-gradient(90deg, #2e8b57, #3cb371);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #f4f4f4;
+      text-decoration: underline;
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      height: 100vh;
+      background: url('https://i.ibb.co/j2D3Pby/Patratu-Valley-at-night.jpg') center center / cover no-repeat fixed;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      padding-top: 80px; /* Offset for fixed header */
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 20px;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .hero-content h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+      margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+      font-size: 1.3rem;
+      max-width: 800px;
+      margin: 0 auto;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    /* ===== Explore Section ===== */
+    .explore-section {
+      padding: 4rem 2rem;
+      text-align: center;
+      background: #f5fff6;
+      padding-top: 80px; /* Offset for fixed header */
+    }
+
+    .explore-section h2 {
+      margin-bottom: 2rem;
+      color: #2e8b57;
+      animation: fadeInDown 1s ease;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.6s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-info {
+      padding: 1rem;
+    }
+
+    .card-info h3 {
+      color: #2e8b57;
+      margin-bottom: 0.5rem;
+    }
+    
+    .card-info p {
+      margin-bottom: 1rem; /* Added margin to space out the button */
+    }
+
+    /* CSS FOR MAP LINK */
+    .map-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: #e8f5e9;
+      color: #2e8b57;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border: 1px solid #2e8b57;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .map-link:hover {
+      background-color: #2e8b57;
+      color: #ffffff;
+    }
+
+    /* ===== AI Suggestion Section (Responsive Enhanced) ===== */
+    .ai-section {
+      text-align: center;
+      background-color: #e8f5e9;
+      padding: 3rem 2rem;
+      padding-top: 80px; /* Offset for fixed header */
+    }
+
+    .ai-section h2 {
+      color: #2e8b57;
+      margin-bottom: 2rem;
+      animation: fadeInDown 1s ease;
+    }
+
+    .ai-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    #cityInput {
+      flex: 1;
+      min-width: 230px;
+      padding: 0.8rem 1rem;
+      border: 2px solid #2e8b57;
+      border-radius: 10px;
+      outline: none;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    #cityInput:focus {
+      border-color: #3cb371;
+    }
+
+    .ai-section button {
+      padding: 0.8rem 1.5rem;
+      background: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .ai-section button:hover {
+      background: #3cb371;
+    }
+
+    #output {
+      margin-top: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      background: #ffffff;
+      border-left: 5px solid #10b981;
+      padding: 1rem;
+      border-radius: 10px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      text-align: left; /* Better for reading suggestions */
+    }
+
+    #output.show {
+      opacity: 1;
+    }
+
+    /* ===== About Section ===== */
+    .about {
+      padding: 3rem 2rem;
+      background: #f9f9f9;
+      text-align: center;
+      padding-top: 80px; /* Offset for fixed header */
+    }
+
+    .about h2 {
+      color: #2e8b57;
+      margin-bottom: 1rem;
+      animation: fadeInDown 1s ease;
+    }
+
+    .about p {
+      max-width: 700px;
+      margin: auto;
+      font-size: 1rem;
+      padding: 0 10px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.6s ease;
+    }
+
+    .about.show p {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Contact Section ===== */
+    .contact {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: #e8f5e9;
+      padding-top: 80px; /* Offset for fixed header */
+    }
+
+    .contact h2 {
+      color: #2e8b57;
+      margin-bottom: 1rem;
+      animation: fadeInDown 1s ease;
+    }
+
+    .contact p {
+      font-size: 1.1rem;
+      word-break: break-word;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: #2e8b57;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+
+    footer:hover {
+      background: #276a47;
+    }
+
+    /* ===== Mobile Menu Toggle ===== */
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .menu-toggle {
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+      }
+
+      nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        background: #3cb371;
+        padding: 1rem 0;
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      nav a {
+        margin: 10px 0;
+        text-align: center;
+      }
+
+      .hero-content h2 {
+        font-size: 2rem;
+      }
+
+      .hero-content p {
+        font-size: 1rem;
+      }
+
+      .ai-container {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      #cityInput,
+      .ai-section button {
+        width: 100%;
+      }
+
+      #output {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🌿 Smart Tourism AI – Jharkhand</h1>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    
+    <nav id="navbar">
+      <a href="#home">Home</a>
+      <a href="#about" target="_blank">About</a>
+      <a href="#explore" target="_blank">Explore</a>
+      <a href="#ai" target="_blank">AI Suggestion</a>
+      <a href="#contact" target="_blank">Contact</a>
+    </nav>
+    
+  </header>
+
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h2>Discover the Hidden Gems of Jharkhand 🌄</h2>
+      <p>Explore nature, culture, and heritage through AI-powered recommendations.</p>
+    </div>
+  </section>
+
+  <section id="explore" class="explore-section">
+    <h2>Explore Jharkhand's Beauty 🎥</h2>
+    <div class="card-container">
+      
+      <div class="card">
+        <img src="https://i.ibb.co/j2D3Pby/Patratu-Valley-at-night.jpg" alt="Patratu Valley">
+        <div class="card-info">
+          <h3>Patratu Valley</h3>
+          <p>Scenic valley surrounded by lush hills and a beautiful lake.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Patratu+Valley+Jharkhand" class="map-link" target="_blank">View on Map 🗺️</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://i.ibb.co/60YCnLMt/Netarhat-sunrise-point.jpg" alt="Netarhat Sunrise Point">
+        <div class="card-info">
+          <h3>Netarhat</h3>
+          <p>Known as the Queen of Chotanagpur, famous for sunrise and sunset points.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Netarhat+Jharkhand" class="map-link" target="_blank">View on Map 🗺️</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://visitorvenue.com/wp-content/uploads/2024/09/Betla-National-Park-forest-view-1024x576.webp" alt="Betla National Park">
+        <div class="card-info">
+          <h3>Betla National Park</h3>
+          <p>One of India's oldest tiger reserves offering a true jungle experience.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Betla+National+Park+Jharkhand" class="map-link" target="_blank">View on Map 🗺️</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://i.ibb.co/F4GfYBxj/Hundru-waterfalls.jpg" alt="Hundru Falls">
+        <div class="card-info">
+          <h3>Hundru Falls</h3>
+          <p>Stunning 98m high waterfall on the Subarnarekha River.</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Hundru+Falls+Ranchi+Jharkhand" class="map-link" target="_blank">View on Map 🗺️</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ai" class="ai-section">
+    <h2>Get AI-Powered Travel Suggestions 🚀</h2>
+    <div class="ai-container">
+      <input type="text" id="cityInput" placeholder="Enter your city (e.g., Ranchi, Jamshedpur)..." />
+      <button onclick="getSuggestion()">Get Suggestion</button>
+    </div>
+    <p id="output"></p>
+  </section>
+
+  <section id="about" class="about">
+    <h2>About the Project</h2>
+    <p>
+      This AI-powered tourism platform promotes eco and cultural tourism in Jharkhand.
+      It helps visitors explore scenic destinations, heritage sites, and local art through
+      smart recommendations, while empowering local communities and artisans.
+    </p>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <p>📧 Email: tourism.jharkhand@gov.in</p>
+    <p>📞 Helpline: +91-1800-123-4567</p>
+  </section>
+
+  <footer>
+    © 2025 Smart Tourism Jharkhand | All Rights Reserved
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    function toggleMenu() {
+      document.getElementById('navbar').classList.toggle('active');
+    }
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    // Make sure .about is observed!
+    document.querySelectorAll('.card, .about').forEach(el => observer.observe(el));
+
+    // ===================================================
+    // ✅ MODIFIED AI Suggestion Function
+    // ===================================================
+    async function getSuggestion() {
+      const city = document.getElementById('cityInput').value.trim();
+      const output = document.getElementById('output');
+      output.classList.remove("show");
+
+      if (!city) {
+        output.innerText = "Please enter your city to get suggestions.";
+        output.classList.add("show");
+        return;
+      }
+
+      // Show a loading message
+      output.innerText = "Thinking...";
+      output.classList.add("show");
+
+      // --- This is the new "mock" AI logic ---
+      const getMockSuggestion = (cityName) => {
+        const lowerCity = cityName.toLowerCase();
+        
+        if (lowerCity.includes("ranchi")) {
+          return "visit the stunning Hundru Falls and enjoy the evening at Patratu Valley!";
+        } else if (lowerCity.includes("jamshedpur")) {
+          return "explore the Jubilee Park and take a trip to the Dimna Lake!";
+        } else if (lowerCity.includes("dhanbad") || lowerCity.includes("bokaro")) {
+          return "plan a day trip to the Maithon Dam and the Topchanchi Lake!";
+        } else if (lowerCity.includes("hazaribagh")) {
+          return "visit the Canary Hill and explore the Hazaribagh Wildlife Sanctuary!";
+        } else {
+          return "plan a weekend getaway to Netarhat, the 'Queen of Chotanagpur', to see the sunrise!";
+        }
+      };
+
+      const aiSuggestion = getMockSuggestion(city);
+
+      // Simulate a network delay (like a real AI)
+      setTimeout(() => {
+        output.innerText = `Since you're near ${city}, we suggest you ${aiSuggestion}`;
+        // The 'show' class is already added, so the text just updates.
+      }, 800); // 800ms delay
+    }
+  </script>
+</body>
+
+</html>
