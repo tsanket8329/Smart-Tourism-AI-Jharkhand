@@ -1,135 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🌿 Smart Tourism AI - Jharkhand</title>
+
   <style>
     /* ===== Global Styles ===== */
-    * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins", sans-serif; }
-    body { line-height:1.6; background:#f5fff6; color:#333; scroll-behavior:smooth; }
-    h2 { color:#2e8b57; margin-bottom:1rem; text-align:center; }
-    a { text-decoration:none; color:inherit; }
-    :target { scroll-margin-top:90px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body { line-height: 1.6; background: #f5fff6; color: #333; scroll-behavior: smooth; }
+    h2 { color: #2e8b57; margin-bottom: 1rem; text-align: center; }
+    a { text-decoration: none; color: inherit; }
+    :target { scroll-margin-top: 90px; }
 
     /* ===== Header ===== */
     header {
-      background:linear-gradient(90deg,#2e8b57,#3cb371);
-      color:#fff; padding:1rem 2rem;
-      display:flex; justify-content:space-between; align-items:center;
-      position:fixed; top:0; width:100%; z-index:1000;
+      background: linear-gradient(90deg, #2e8b57, #3cb371);
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
     }
-    header h1 { font-size:1.5rem; }
-    nav { display:flex; gap:1rem; }
-    nav a { color:white; font-weight:500; }
-    .menu-toggle { display:none; cursor:pointer; font-size:1.8rem; }
+    header h1 { font-size: 1.5rem; }
+    nav { display: flex; gap: 1rem; }
+    nav a { color: white; font-weight: 500; position: relative; transition: 0.3s; }
+    nav a.active, nav a:hover { border-bottom: 2px solid white; padding-bottom: 3px; }
+    .menu-toggle { display: none; cursor: pointer; font-size: 1.8rem; }
 
     /* ===== Hero Section ===== */
     .hero {
-      height:100vh;
-      background:url('https://i.ibb.co/j2D3Pby/Patratu-Valley-at-night.jpg') center/cover no-repeat;
-      display:flex; justify-content:center; align-items:center; text-align:center;
-      color:#fff; padding-top:80px; position:relative;
+      height: 100vh;
+      background: url('https://i.ibb.co/j2D3Pby/Patratu-Valley-at-night.jpg') center/cover no-repeat;
+      display: flex; justify-content: center; align-items: center; text-align: center;
+      color: #fff; padding-top: 80px; position: relative;
     }
-    .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.4); }
-    .hero-content { position:relative; z-index:1; animation:fadeIn 2s ease-in-out; }
-    .hero-content h2 { font-size:3rem; text-shadow:2px 2px 8px rgba(0,0,0,0.7); }
-    .hero-content p { font-size:1.3rem; text-shadow:1px 1px 5px rgba(0,0,0,0.6); margin-top:1rem; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    .hero::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-content h2 {
+      font-size: 3rem;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+      opacity: 0; transform: translateY(40px);
+      animation: fadeSlide 2.5s ease forwards;
+    }
+    .hero-content p {
+      font-size: 1.3rem;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+      margin-top: 1rem;
+      opacity: 0; animation: fadeIn 2s 1s forwards;
+    }
+    @keyframes fadeSlide { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     /* ===== Explore Section ===== */
-    .explore-section { padding:4rem 2rem; padding-top:100px; text-align:center; }
-    .card-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; }
+    .explore-section { padding: 4rem 2rem; padding-top: 100px; text-align: center; }
+    .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
     .card {
-      background:#fff; border-radius:15px;
-      box-shadow:0 4px 10px rgba(0,0,0,0.1);
-      overflow:hidden; transition:0.3s;
+      background: #fff; border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden; transition: 0.3s;
+      opacity: 0; transform: translateY(30px);
     }
-    .card:hover { transform:scale(1.05); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
-    .card img { width:100%; height:180px; object-fit:cover; }
-    .card-info { padding:1rem; }
+    .card.show { opacity: 1; transform: translateY(0); }
+    .card:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    .card-info { padding: 1rem; text-align: left; }
+    .card-info h3 { margin-bottom: 0.5rem; }
+    .card-info p { font-size: 0.9rem; margin-bottom: 0.5rem; }
     .map-link {
-      display:inline-block; padding:0.5rem 1rem;
-      background:#e8f5e9; color:#2e8b57; border-radius:8px;
-      font-weight:500; border:1px solid #2e8b57; transition:0.3s;
+      display: inline-block; padding: 0.5rem 1rem;
+      background: #e8f5e9; color: #2e8b57; border-radius: 8px;
+      font-weight: 500; border: 1px solid #2e8b57; transition: 0.3s;
+      margin-top: 0.5rem;
     }
-    .map-link:hover { background:#2e8b57; color:#fff; }
+    .map-link:hover { background: #2e8b57; color: #fff; }
 
     /* ===== AI Suggestion Section ===== */
-    .ai-section { text-align:center; background:#e8f5e9; padding:3rem 2rem; padding-top:80px; }
-    .ai-container { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; max-width:700px; margin:0 auto; }
+    .ai-section { text-align: center; background: #e8f5e9; padding: 3rem 2rem; padding-top: 80px; }
+    .ai-container { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; max-width: 700px; margin: 0 auto; }
     #cityInput, #interestInput, #durationInput {
-      flex:1; min-width:150px; padding:0.8rem 1rem;
-      border:2px solid #2e8b57; border-radius:10px;
+      flex: 1; min-width: 150px; padding: 0.8rem 1rem;
+      border: 2px solid #2e8b57; border-radius: 10px;
     }
     #cityInput:focus, #interestInput:focus, #durationInput:focus {
-      border-color:#3cb371; outline:none;
+      border-color: #3cb371; outline: none;
     }
     .ai-section button {
-      padding:0.8rem 1.5rem; background:#2e8b57; color:white;
-      border:none; border-radius:10px; cursor:pointer;
+      padding: 0.8rem 1.5rem; background: #2e8b57; color: white;
+      border: none; border-radius: 10px; cursor: pointer;
     }
-    .ai-section button:hover { background:#3cb371; }
+    .ai-section button:hover { background: #3cb371; }
     #output {
-      margin-top:1rem; padding:1rem; background:#fff;
-      border-left:5px solid #10b981; border-radius:10px;
-      font-weight:bold; max-width:700px;
-      margin-left:auto; margin-right:auto; text-align:left;
-      opacity:0; transition:opacity 0.6s;
+      margin-top: 1rem; padding: 1rem; background: #fff;
+      border-left: 5px solid #10b981; border-radius: 10px;
+      font-weight: bold; max-width: 700px;
+      margin-left: auto; margin-right: auto; text-align: left;
+      opacity: 0; transition: opacity 0.6s;
     }
-    #output.show { opacity:1; }
+    #output.show { opacity: 1; }
 
     /* ===== Itinerary Section ===== */
-    .itinerary-section { padding:3rem 2rem; padding-top:80px; text-align:center; }
+    .itinerary-section { padding: 3rem 2rem; padding-top: 80px; text-align: center; }
     .itinerary-container {
-      max-width:700px; margin:0 auto; text-align:left;
-      background:#fff; padding:1rem; border-radius:10px;
-      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+      max-width: 700px; margin: 0 auto; text-align: left;
+      background: #fff; padding: 1rem; border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     /* ===== Map Section ===== */
-    #map { width:100%; height:400px; margin-top:2rem; border-radius:10px; }
+    .map-section { padding: 3rem 2rem; padding-top: 80px; text-align: center; }
+    #map { width: 100%; height: 400px; margin-top: 2rem; border-radius: 10px; background: #d0f0d0; }
+    #map p { padding: 2rem; color: #2e8b57; }
 
     /* ===== Scroll to Top Button ===== */
     #scrollTopBtn {
-      position:fixed; bottom:20px; right:20px;
-      background:#2e8b57; color:white; border:none;
-      border-radius:50%; width:45px; height:45px;
-      font-size:1.5rem; cursor:pointer; display:none;
-      box-shadow:0 4px 10px rgba(0,0,0,0.3);
+      position: fixed; bottom: 20px; right: 20px;
+      background: #2e8b57; color: white; border: none;
+      border-radius: 50%; width: 45px; height: 45px;
+      font-size: 1.5rem; cursor: pointer; display: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
-    #scrollTopBtn.show { display:block; }
+    #scrollTopBtn.show { display: block; }
 
     /* ===== Footer ===== */
-    footer { background:#2e8b57; color:white; text-align:center; padding:1rem; margin-top:2rem; }
+    footer { background: #236646; color: white; text-align: center; padding: 1rem; margin-top: 2rem; }
 
     /* ===== Responsive ===== */
     @media(max-width:768px){
-      .menu-toggle{display:block;}
-      nav{display:none;flex-direction:column;width:100%; background:#3cb371; padding:1rem 0;}
-      nav.active{display:flex;}
-      nav a{margin:10px 0;}
-      .ai-container{flex-direction:column;width:100%;}
-      #cityInput,#interestInput,#durationInput,.ai-section button{width:100%;}
+      .menu-toggle { display: block; }
+      nav { display: none; flex-direction: column; width: 100%; background: #3cb371; padding: 1rem 0; }
+      nav.active { display: flex; }
+      nav a { margin: 10px 0; text-align: center; }
+      .ai-container { flex-direction: column; width: 100%; }
+      #cityInput, #interestInput, #durationInput, .ai-section button { width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header>
     <h1>🌿 Smart Tourism AI – Jharkhand</h1>
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
     <nav id="navbar">
-      <a href="#home">Home</a>
+      <a href="#home" class="active">Home</a>
       <a href="#explore">Explore</a>
       <a href="#ai">AI Suggestions</a>
       <a href="#itinerary">Itinerary</a>
+      <a href="#hotels">Hotels</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
-  <!-- Hero Section -->
   <section id="home" class="hero">
     <div class="hero-content">
       <h2>Discover the Hidden Gems of Jharkhand 🌄</h2>
@@ -137,51 +162,16 @@
     </div>
   </section>
 
-  <!-- Explore Section -->
   <section id="explore" class="explore-section">
     <h2>Explore Jharkhand's Beauty 🎥</h2>
     <div class="card-container">
-
-      <div class="card">
-        <img src="https://i.ibb.co/j2D3Pby/Patratu-Valley-at-night.jpg" alt="Patratu Valley">
-        <div class="card-info">
-          <h3>Patratu Valley</h3>
-          <p>Scenic valley surrounded by lush hills and a beautiful lake.</p>
-          <a href="https://www.google.com/maps/search/?api=1&query=Patratu+Valley+Jharkhand" class="map-link" target="_blank">View on Map 🗺</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://i.ibb.co/60YCnLMt/Netarhat-sunrise-point.jpg" alt="Netarhat Sunrise Point">
-        <div class="card-info">
-          <h3>Netarhat</h3>
-          <p>Known as the Queen of Chotanagpur, famous for sunrise and sunset points.</p>
-          <a href="https://www.google.com/maps/search/?api=1&query=Netarhat+Jharkhand" class="map-link" target="_blank">View on Map 🗺</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://visitorvenue.com/wp-content/uploads/2024/09/Betla-National-Park-forest-view-1024x576.webp" alt="Betla National Park">
-        <div class="card-info">
-          <h3>Betla National Park</h3>
-          <p>One of India's oldest tiger reserves offering a true jungle experience.</p>
-          <a href="https://www.google.com/maps/search/?api=1&query=Betla+National+Park+Jharkhand" class="map-link" target="_blank">View on Map 🗺</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://i.ibb.co/F4GfYBxj/Hundru-waterfalls.jpg" alt="Hundru Falls">
-        <div class="card-info">
-          <h3>Hundru Falls</h3>
-          <p>Stunning 98m high waterfall on the Subarnarekha River.</p>
-          <a href="https://www.google.com/maps/search/?api=1&query=Hundru+Falls+Ranchi+Jharkhand" class="map-link" target="_blank">View on Map 🗺</a>
-        </div>
-      </div>
-
+      <div class="card"><img src="https://i.ibb.co/j2D3Pby/Patratu-Valley-at-night.jpg" alt="Patratu Valley"><div class="card-info"><h3>Patratu Valley</h3><p>Scenic valley surrounded by lush hills and a beautiful lake.</p><a href="https://www.google.com/maps/search/?api=1&query=Patratu+Valley+Jharkhand" class="map-link" target="_blank">View on Map 🗺</a></div></div>
+      <div class="card"><img src="https://i.ibb.co/60YCnLMt/Netarhat-sunrise-point.jpg" alt="Netarhat"><div class="card-info"><h3>Netarhat</h3><p>Known as the Queen of Chotanagpur, famous for sunrise and sunset points.</p><a href="https://www.google.com/maps/search/?api=1&query=Netarhat+Jharkhand" class="map-link" target="_blank">View on Map 🗺</a></div></div>
+      <div class="card"><img src="https://visitorvenue.com/wp-content/uploads/2024/09/Betla-National-Park-forest-view-1024x576.webp" alt="Betla National Park"><div class="card-info"><h3>Betla National Park</h3><p>One of India's oldest tiger reserves offering a true jungle experience.</p><a href="https://www.google.com/maps/search/?api=1&query=Betla+National+Park+Jharkhand" class="map-link" target="_blank">View on Map 🗺</a></div></div>
+      <div class="card"><img src="https://i.ibb.co/F4GfYBxj/Hundru-waterfalls.jpg" alt="Hundru Falls"><div class="card-info"><h3>Hundru Falls</h3><p>Stunning 98m high waterfall on the Subarnarekha River.</p><a href="https://www.google.com/maps/search/?api=1&query=Hundru+Falls+Ranchi+Jharkhand" class="map-link" target="_blank">View on Map 🗺</a></div></div>
     </div>
   </section>
 
-  <!-- AI Suggestions Section -->
   <section id="ai" class="ai-section">
     <h2>Get AI-Powered Travel Suggestions 🚀</h2>
     <div class="ai-container">
@@ -193,7 +183,6 @@
     <p id="output"></p>
   </section>
 
-  <!-- Itinerary Section -->
   <section id="itinerary" class="itinerary-section">
     <h2>My Travel Itinerary 📅</h2>
     <div class="itinerary-container" id="itineraryContainer">
@@ -201,31 +190,83 @@
     </div>
   </section>
 
-  <!-- Map Section -->
-  <section class="map-section">
+  <section class="map-section" id="map-section">
     <h2>Map of Attractions 🗺</h2>
-    <div id="map"></div>
+    <div id="map"><p>🗺 Map is loading... please wait or check your connection.</p></div>
   </section>
 
-  <!-- Contact Section -->
+  <section id="hotels" class="explore-section">
+    <h2>Nearby Hotels in Ranchi 🏨</h2>
+    <p>Here are some top-rated places to stay for your trip.</p>
+    <div class="card-container">
+      <div class="card">
+        <img src="https://i.ibb.co/60YCnLMt/Netarhat-sunrise-point.jpg" alt="Hotel placeholder image">
+        <div class="card-info">
+          <h3>Divisha Hotel Marina</h3>
+          <p>Rating: 4.7/5 (3928 reviews)</p>
+          <p>Price: ~₹1,738 / night</p>
+          <p>Straightforward rooms in an informal hotel offering a restaurant, a bar & breakfast.</p>
+          <a href="https://www.google.com/travel/search?q=Divisha+Hotel+Marina" class="map-link" target="_blank">Book Now ➔</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://i.ibb.co/j2D3Pby/Patratu-Valley-at-night.jpg" alt="Hotel placeholder image">
+        <div class="card-info">
+          <h3>Hotel Accord-Ranchi</h3>
+          <p>Rating: 4.5/5 (1032 reviews)</p>
+          <p>Price: ~₹1,557 / night</p>
+          <p>3-star hotel. Great value for a comfortable stay with good service.</p>
+          <a href="https://www.google.com/travel/search?q=Hotel+Accord-Ranchi" class="map-link" target="_blank">Book Now ➔</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://i.ibb.co/F4GfYBxj/Hundru-waterfalls.jpg" alt="Hotel placeholder image">
+        <div class="card-info">
+          <h3>Hotel Pearl Ranchi</h3>
+          <p>Rating: 4.3/5 (1117 reviews)</p>
+          <p>Price: ~₹1,132 / night</p>
+          <p>3-star hotel. An affordable and well-rated option in the city.</p>
+          <a href="https://www.google.com/travel/search?q=Hotel+Pearl+Ranchi" class="map-link" target="_blank">Book Now ➔</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://visitorvenue.com/wp-content/uploads/2024/09/Betla-National-Park-forest-view-1024x576.webp" alt="Hotel placeholder image">
+        <div class="card-info">
+          <h3>Hotel Yuvraj Palace</h3>
+          <p>Rating: 4.1/5 (1997 reviews)</p>
+          <p>Price: ~₹2,560 / night (41% less than usual)</p>
+          <p>Laid-back property with a restaurant, cafe, bar, and an indoor pool.</p>
+          <a href="https://www.google.com/travel/search?q=Hotel+yuvraj+palace" class="map-link" target="_blank">Book Now ➔</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="contact" class="ai-section">
     <h2>Contact Us</h2>
     <p>📧 Email: tourism.jharkhand@gov.in</p>
     <p>📞 Helpline: +91-1800-123-4567</p>
   </section>
 
-  <!-- Scroll to Top -->
-  <button id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆️</button>
+  <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">⬆️</button>
 
-  <!-- Footer -->
   <footer>© 2025 Smart Tourism Jharkhand | All Rights Reserved</footer>
 
-  <!-- ===== JAVASCRIPT ===== -->
   <script>
     // Mobile Menu Toggle
     function toggleMenu() {
       document.getElementById('navbar').classList.toggle('active');
     }
+
+    // Close menu on link click (mobile)
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('navbar').classList.remove('active');
+      });
+    });
 
     // AI Suggestion Logic
     function getAISuggestion() {
@@ -234,85 +275,142 @@
       const duration = document.getElementById('durationInput').value.trim();
       const output = document.getElementById('output');
       const itinerary = document.getElementById('itineraryContainer');
-      output.classList.remove("show");
-      itinerary.innerHTML = "";
+            output.classList.remove("show");
 
-      if(!city) {
-        output.innerText = "Please enter your city.";
+      if (!city) {
+        output.innerText = "⚠️ Please enter your city.";
         output.classList.add("show");
         return;
       }
 
-      output.innerText = "Generating suggestions...";
+      let suggestion = "";
+      let plan = "";
+
+      if (interest.includes("nature")) {
+        suggestion = `🌿 Visit Patratu Valley and Netarhat near ${city} for breathtaking nature views.`;
+        plan = `<ul>
+                  <li>Morning: Drive from ${city} to Patratu Valley.</li>
+                  <li>Afternoon: Enjoy boating and scenic views.</li>
+                  <li>Evening: Travel to Netarhat and watch the sunset.</li>
+                  <li>Stay overnight at a nature resort.</li>
+                </ul>`;
+      } else if (interest.includes("adventure")) {
+        suggestion = `🧗 Try trekking and waterfall adventures near ${city}.`;
+        plan = `<ul>
+                  <li>Morning: Start your day with a trek near local hills.</li>
+                  <li>Afternoon: Visit nearby waterfalls for adventure.</li>
+                  <li>Evening: Bonfire and local food experience.</li>
+                </ul>`;
+      } else if (interest.includes("culture")) {
+        suggestion = `🏛 Explore ${city}'s cultural spots and traditional markets.`;
+        plan = `<ul>
+                  <li>Morning: Visit museums and temples.</li>
+                  <li>Afternoon: Explore heritage markets and local food.</li>
+                  <li>Evening: Visit a viewpoint or light show.</li>
+                </ul>`;
+      } else {
+        suggestion = `✨ Explore ${city}'s mix of natural beauty, culture, and adventure.`;
+        plan = `<ul>
+                  <li>Morning: Visit a scenic site nearby.</li>
+                  <li>Afternoon: Enjoy a local meal and park walk.</li>
+                  <li>Evening: Relax at a lake or viewpoint.</li>
+                </ul>`;
+      }
+
+      output.innerText = suggestion;
       output.classList.add("show");
+      itinerary.innerHTML = plan;
 
-      setTimeout(() => {
-        let suggestion = `Since you're near ${city}, `;
-        if(interest.includes("nature")) suggestion += "visit Hundru Falls and Patratu Valley. ";
-        if(interest.includes("adventure")) suggestion += "explore Netarhat trekking routes. ";
-        if(interest.includes("culture")) suggestion += "check out local festivals and heritage sites. ";
-        if(!interest) suggestion += "explore Netarhat, Patratu Valley, and Betla National Park! ";
-
-        const ideas = [
-          "Don't miss the scenic road trip to Patratu Dam!",
-          "Try local dishes like Dhuska and Litti-Chokha nearby.",
-          "You can rent a bike and explore the waterfalls route.",
-          "Catch a sunset at Tagore Hill for a serene experience.",
-          "Buy local handicrafts from Ranchi's tribal markets."
-        ];
-        suggestion += ideas[Math.floor(Math.random() * ideas.length)];
-
-        output.innerText = suggestion;
-
-        itinerary.innerHTML = `
-          <h3>Suggested Itinerary</h3>
-          <ul>
-            <li>Day 1: Visit Hundru Falls and Patratu Valley</li>
-            <li>Day 2: Explore Netarhat Sunrise & Heritage Sites</li>
-            <li>Optional: Betla National Park Jungle Safari</li>
-          </ul>
-        `;
-      }, 800);
+      // Update nearby hotels dynamically
+      updateHotelsForCity(city);
     }
 
-    // Scroll-to-top button behavior
-    window.onscroll = () => {
-      document.getElementById('scrollTopBtn').classList.toggle('show', window.scrollY > 400);
-    };
+    // Function to update hotels dynamically for any city
+    function updateHotelsForCity(city) {
+      const hotelsSection = document.getElementById("hotels");
+      const cardContainer = hotelsSection.querySelector(".card-container");
 
-    // ===== GOOGLE MAPS INITIALIZATION =====
-    function initMap() {
-      const jharkhandCenter = { lat: 23.6102, lng: 85.2799 };
-      const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 7.5,
-        center: jharkhandCenter,
-      });
+      const googleSearch = (name, c) =>
+        `https://www.google.com/travel/search?q=${encodeURIComponent(name + " " + c)}`;
 
-      const attractions = [
-        { position: { lat: 23.4231, lng: 85.2845 }, title: "Patratu Valley" },
-        { position: { lat: 23.4853, lng: 84.2746 }, title: "Netarhat" },
-        { position: { lat: 23.5286, lng: 85.4267 }, title: "Hundru Falls" },
-        { position: { lat: 23.8447, lng: 84.1931 }, title: "Betla National Park" },
+      const hotels = [
+        {
+          name: `Hotel Sunshine ${city}`,
+          rating: "4.6/5",
+          reviews: 980,
+          price: "₹1,650 / night",
+          desc: "Modern hotel with clean rooms and friendly staff.",
+          img: "https://i.ibb.co/60YCnLMt/Netarhat-sunrise-point.jpg",
+        },
+        {
+          name: `Green Valley Resort ${city}`,
+          rating: "4.4/5",
+          reviews: 1234,
+          price: "₹2,200 / night",
+          desc: "Surrounded by greenery, perfect for a relaxing stay.",
+          img: "https://i.ibb.co/j2D3Pby/Patratu-Valley-at-night.jpg",
+        },
+        {
+          name: `Royal Palace Inn ${city}`,
+          rating: "4.3/5",
+          reviews: 875,
+          price: "₹1,850 / night",
+          desc: "Elegant rooms, local cuisine, and modern amenities.",
+          img: "https://i.ibb.co/F4GfYBxj/Hundru-waterfalls.jpg",
+        },
+        {
+          name: `Adventure Stay ${city}`,
+          rating: "4.2/5",
+          reviews: 700,
+          price: "₹1,400 / night",
+          desc: "Perfect for nature and adventure lovers.",
+          img: "https://visitorvenue.com/wp-content/uploads/2024/09/Betla-National-Park-forest-view-1024x576.webp",
+        },
       ];
 
-      const infoWindow = new google.maps.InfoWindow();
-      attractions.forEach(place => {
-        const marker = new google.maps.Marker({
-          position: place.position,
-          map: map,
-          title: place.title,
-        });
-        marker.addListener("click", () => {
-          infoWindow.setContent(`<strong>${place.title}</strong>`);
-          infoWindow.open(map, marker);
-        });
+      hotelsSection.querySelector("h2").innerText = `Nearby Hotels in ${city} 🏨`;
+
+      cardContainer.innerHTML = hotels.map(h => `
+        <div class="card">
+          <img src="${h.img}" alt="${h.name}">
+          <div class="card-info">
+            <h3>${h.name}</h3>
+            <p>Rating: ${h.rating} (${h.reviews} reviews)</p>
+            <p>Price: ${h.price}</p>
+            <p>${h.desc}</p>
+            <a href="${googleSearch(h.name, city)}" class="map-link" target="_blank">Book Now ➔</a>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // Fade-in animation for cards
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    });
+    document.querySelectorAll(".card").forEach(card => observer.observe(card));
+
+    // Scroll to top button
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    window.addEventListener("scroll", () => {
+      scrollTopBtn.classList.toggle("show", window.scrollY > 400);
+    });
+
+    // Initialize Google Map (basic)
+    function initMap() {
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 7,
+        center: { lat: 23.6102, lng: 85.2799 },
+        mapTypeId: "terrain"
       });
     }
   </script>
 
-  <!-- ===== GOOGLE MAPS API SCRIPT ===== -->
-  <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8i1L1Oy7AaZXLycuRk4cPgvb4WQmHI-o&callback=initMap">
-  </script>
+  <!-- Google Maps Script -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8i1L1Oy7AaZXLycuRk4cPgvb4WQmHI-o&callback=initMap"></script>
+
 </body>
 </html>
+
