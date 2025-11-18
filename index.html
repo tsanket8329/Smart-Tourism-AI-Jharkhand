@@ -276,13 +276,13 @@
       const output = document.getElementById('output');
       const itinerary = document.getElementById('itineraryContainer');
             output.classList.remove("show");
-
       if (!city) {
         output.innerText = "⚠️ Please enter your city.";
         output.classList.add("show");
         return;
       }
 
+      
       let suggestion = "";
       let plan = "";
 
@@ -294,6 +294,8 @@
                   <li>Evening: Travel to Netarhat and watch the sunset.</li>
                   <li>Stay overnight at a nature resort.</li>
                 </ul>`;
+
+        
       } else if (interest.includes("adventure")) {
         suggestion = `🧗 Try trekking and waterfall adventures near ${city}.`;
         plan = `<ul>
